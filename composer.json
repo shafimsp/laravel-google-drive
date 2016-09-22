@@ -3,14 +3,13 @@
     "version": "0.0.1",
     "description": "Manage events on a Google Calendar",
     "keywords": [
-        "spatie",
-        "calendar",
+        "shafimsp",
+        "drive",
         "google",
-        "event",
-        "schedule",
-        "laravel-google-calendar"
+        "file",
+        "laravel-google-drive"
     ],
-    "homepage": "https://github.com/spatie/laravel-google-calendar",
+    "homepage": "https://github.com/shafimsp/laravel-google-drive",
     "license": "MIT",
     "authors": [
         {
