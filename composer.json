@@ -1,5 +1,6 @@
 {
     "name": "shafimsp/laravel-google-drive",
+    "version": "0.0.1",
     "description": "Manage events on a Google Calendar",
     "keywords": [
         "spatie",
