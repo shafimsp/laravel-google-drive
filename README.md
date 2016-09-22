@@ -1,4 +1,4 @@
-# Manage events on a Google Calendar
+# Manage events on a Google Drive
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-google-calendar.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-google-calendar)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
@@ -10,7 +10,7 @@
 This package makes working with a Google Calendar a breeze. Once it has been set up you can do these things:
 
 ```php
-use Spatie\GoogleCalendar\Event;
+use Pixbit\GoogleDrive\File;
 
 //create a new event
 $event = new Event;
