@@ -24,10 +24,7 @@ class GoogleDriveServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config/laravel-google-drive.php', 'laravel-google-drive');
 
         $this->app->bind(GoogleDrive::class, function () {
-
-            $driveId = config('laravel-google-drive.drive_id');
-
-            return GoogleDriveFactory::createForDriveId($driveId);
+            return GoogleDriveFactory::createForDrive();
         });
 
         $this->app->alias(GoogleDrive::class, 'laravel-google-drive');

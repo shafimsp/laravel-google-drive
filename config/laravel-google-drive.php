@@ -5,11 +5,7 @@ return [
     /**
      * Path to a json file containing the credentials of a Google Service account.
      */
-    'client_secret_json' => storage_path('app/laravel-google-calendar/client_secret.json'),
+    'client_secret_json' => storage_path('app/google/client_secret.json'),
+    'master_credential_json' => storage_path('app/google/1.json'),
 
-    /**
-     *  The id of the Google Calendar that will be used by default.
-     */
-    'drive_id' => '',
-    
 ];
