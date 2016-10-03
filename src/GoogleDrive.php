@@ -34,8 +34,19 @@ class GoogleDrive
         ];
 
         if(is_numeric($pageSize) && intval($pageSize) > 0) {
+			$parameters['pageSize'] = $pageSize;
 
-            $files = [];
+            if (!empty($pageToken)) {
+                $parameters['pageToken'] = $pageToken;
+            }
+
+            return $this
+                ->driveService
+                ->files
+                ->listFiles($parameters);
+           
+        } else {
+             $files = [];
 
             do {
                 $fl = $this
@@ -48,19 +59,6 @@ class GoogleDrive
             } while (!empty($pageToken));
 
             return $files;
-        } else {
-            if (is_numeric($pageSize) && intval($pageSize) > 0) {
-                $parameters['pageSize'] = $pageSize;
-            }
-
-            if (!empty($pageToken)) {
-                $parameters['pageToken'] = $pageToken;
-            }
-
-            return $this
-                ->driveService
-                ->files
-                ->listFiles($parameters);
         }
     }
 

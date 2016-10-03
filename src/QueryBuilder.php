@@ -8,6 +8,7 @@
 
 namespace Pixbit\GoogleDrive;
 
+use Google_Service_Drive;
 use Google_Service_Drive_DriveFile;
 use Google_Service_Drive_FileList;
 
@@ -36,40 +37,73 @@ class QueryBuilder
     private $pageSize = 0;
     private $pageToken = null;
 
+    private $drive;
+
+    public function drive(GoogleDrive $drive) {
+        $this->drive = $drive;
+		return $this;
+    }
+
+    public function service(Google_Service_Drive $service) {
+        $this->drive = new GoogleDrive($service);
+		return $this;
+    }
+
+    public function folder($folderId) {
+        $this->folderId = $folderId;
+		return $this;
+    }
+
+    public function size($pageSize) {
+        $this->pageSize = $pageSize;
+		return $this;
+    }
+
+    public function token($nextPageToken) {
+        $this->pageToken = $nextPageToken;
+		return $this;
+    }
+
     public function where($field, $operator, $value) {
         $operators = $this->fields[$field];
         if(!$operators) return $this;
         if(!array_search($operator, $operators)) return $this;
 
         if(in_array($field, ['parents', 'parents', 'owners', 'writers', 'readers'])) {
-            $filters[] = "'".$value."' in ".$field;
+            $this->filters[] = "'".$value."' in ".$field;
         } else {
-            $filters[] = $field." ".$operator." '".$value."'";
+            $this->filters[] = $field." ".$operator." '".$value."'";
         }
 
         return $this;
     }
 
-    public function folder($folderId) {
-        $this->folderId = $folderId;
+    public function create($name) {
+        if(!isset($this->drive)) {
+            $this->drive = File::getGoogleDrive();
+        }
+
+        $driveFile = $this->drive->createFolder($name, $this->folderId);
+        return File::createFromGoogleDriveFile($driveFile);
     }
 
-    public function size($pageSize) {
-        $this->pageSize = $pageSize;
-    }
-
-    public function token($nextPageToken) {
-        $this->pageToken = $nextPageToken;
-    }
-
-    public function getFilters()
+    public function find($fileId)
     {
-        return $this->filters;
+        if(!isset($this->drive)) {
+            $this->drive = File::getGoogleDrive();
+        }
+
+        $driveFile = $this->drive->getFile($fileId);
+        return File::createFromGoogleDriveFile($driveFile);
     }
 
     public function get()
     {
-        $driveFiles = File::getGoogleDrive()->listFiles($this->folderId, $this->getFilters(), $this->pageSize, $this->pageToken);
+        if(!isset($this->drive)) {
+            $this->drive = File::getGoogleDrive();
+        }
+
+        $driveFiles = $this->drive->listFiles($this->folderId, $this->getFilters(), $this->pageSize, $this->pageToken);
 
         if($driveFiles instanceof Google_Service_Drive_FileList) {
             $fileList = $driveFiles;
@@ -87,5 +121,10 @@ class QueryBuilder
                 })
                 ->values();
         }
+    }
+
+    private function getFilters()
+    {
+        return $this->filters;
     }
 }
