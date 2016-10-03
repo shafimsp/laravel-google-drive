@@ -1,7 +1,7 @@
 {
     "name": "shafimsp/laravel-google-drive",
     "version": "0.0.1",
-    "description": "Manage events on a Google Calendar",
+    "description": "Manage files on a Google Drive",
     "keywords": [
         "shafimsp",
         "drive",
